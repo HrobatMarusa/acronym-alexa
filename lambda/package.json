@@ -1,0 +1,27 @@
+{
+  "name": "acronym-bot",
+  "version": "1.0.0",
+  "description": "An alexa skill that lets the user discover the meaning of commonly used acronyms within BBC R&D",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HrobatMarusa/acronym-alexa.git"
+  },
+  "keywords": [
+    "AlexaSkill",
+    "Nodejs",
+    "Acronyms"
+  ],
+  "author": "MarusaHrobat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HrobatMarusa/acronym-alexa/issues"
+  },
+  "homepage": "https://github.com/HrobatMarusa/acronym-alexa#readme",
+  "dependencies": {
+    "ask-sdk": "^2.10.0"
+  }
+}
