@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/HrobatMarusa/acronym-alexa#readme",
   "dependencies": {
-    "ask-sdk": "^2.10.0"
+    "ask-sdk": "^2.10.0",
+    "dynamodb-doc": "^1.0.0"
   }
 }
