@@ -12,14 +12,14 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    const speechText = "Welcome to the acronym bot!";
+    const speechText = "Welcome to the acronym bot! You can ask me for the meaning of numerous acronyms commonly used within BBC R and D!";
     const repromptText =
-      'You can ask me for the meaning of an acronym by saying "what does an acronym stand for" or "what does an acronym mean" ';
+      'You can also say help to find out how I work';
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(repromptText)
-      .withSimpleCard("Welcome!", speechText)
+      .withStandardCard("Welcome to the acronym bot!", "Ask me for the meaning of acronyms", 'https://media.makeameme.org/created/acronyms-acronyms-everywhere-5981993604.jpg')
       .getResponse();
   },
 };
@@ -60,7 +60,7 @@ const AcronymIntentHandler = {
         ". It means " +
         description;
     }
-    const repromptText = "Which acronym are you interested in?";
+    const repromptText = "Ask for another acronym!";
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -79,7 +79,7 @@ const HelpIntentHandler = {
   },
   handle(handlerInput) {
     const speechText =
-      "You can ask me for the meaning of numerous acronyms commonly used within BBC R and D!";
+      'You can ask me for the meaning of an acronym by saying, "what does an acronym stand for", or, "what does an acronym mean". To close this skill, simply say "goodbye" ';
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -115,8 +115,6 @@ const SessionEndedRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "SessionEndedRequest";
   },
   handle(handlerInput) {
-    //any cleanup logic goes here
-    //e.g. deleting any database entires lying around
     return handlerInput.responseBuilder.getResponse();
   },
 };
