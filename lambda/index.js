@@ -41,9 +41,9 @@ const AcronymIntentHandler = {
       },
       TableName: "acronymbot",
     };
+
     var result = await dynamo.getItem(params).promise();
     data = Object.values(result);
-    //acron = await data[0].acro;
     output = await data[0].output;
     definition = await data[0].definition;
     description = await data[0].description;
@@ -60,15 +60,42 @@ const AcronymIntentHandler = {
         ". It means " +
         description;
     }
-    const repromptText = "Ask for another acronym!";
+    const repromptText = "Ask for another acronym or say; 'repeat'; to hear the definition of the previous acronym again!";
+
+    const attributes = handlerInput.attributesManager.getSessionAttributes();
+    attributes.lastResult = speechText;
+    handlerInput.attributesManager.setSessionAttributes(attributes);
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(repromptText)
       .withSimpleCard("Here's the requested acronym information: ", speechText)
-      .getResponse();
+      .getResponse();   
   },
 };
+
+const RepeatIntentHandler = {
+  canHandle(handlerInput) {
+      return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+          && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.RepeatIntent';
+  },
+  handle(handlerInput) {
+    let speechText = '';
+    const attributes = handlerInput.attributesManager.getSessionAttributes();
+    if (attributes.lastResult){
+      speechText = "I said: " + attributes.lastResult;
+    };
+    handlerInput.attributesManager.setSessionAttributes(attributes);
+    
+    const repromptText = "Ask for another acronym or say 'repeat'; to hear the definition of the previous acronym again!";
+
+    return handlerInput.responseBuilder
+    .speak(speechText)
+    .reprompt(repromptText)
+    .withSimpleCard("Here's the requested acronym information again: ", speechText)
+    .getResponse();
+  }
+}
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {
@@ -142,6 +169,7 @@ exports.handler = async function (event, context) {
       .addRequestHandlers(
         LaunchRequestHandler,
         AcronymIntentHandler,
+        RepeatIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         SessionEndedRequestHandler
