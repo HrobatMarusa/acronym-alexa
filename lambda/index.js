@@ -12,14 +12,18 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    const speechText = "Welcome to the acronym bot! You can ask me for the meaning of numerous acronyms commonly used within BBC R and D!";
-    const repromptText =
-      'You can also say help to find out how I work';
+    const speechText =
+      "Welcome to the acronym bot! You can ask me for the meaning of numerous acronyms commonly used within BBC R and D!";
+    const repromptText = "You can also say help to find out how I work";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(repromptText)
-      .withStandardCard("Welcome to the acronym bot!", "Ask me for the meaning of acronyms", 'https://media.makeameme.org/created/acronyms-acronyms-everywhere-5981993604.jpg')
+      .withStandardCard(
+        "Welcome to the acronym bot!",
+        "Ask me for the meaning of acronyms",
+        "https://media.makeameme.org/created/acronyms-acronyms-everywhere-5981993604.jpg"
+      )
       .getResponse();
   },
 };
@@ -60,42 +64,53 @@ const AcronymIntentHandler = {
         ". It means " +
         description;
     }
-    const repromptText = "Ask for another acronym or say; 'repeat'; to hear the definition of the previous acronym again!";
-
+    //save the speechText as a session attribute for the repeat intent
     const attributes = handlerInput.attributesManager.getSessionAttributes();
     attributes.lastResult = speechText;
     handlerInput.attributesManager.setSessionAttributes(attributes);
+
+    const repromptText =
+      "Ask for another acronym or say; 'repeat'; to hear the definition of the previous acronym again!";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(repromptText)
       .withSimpleCard("Here's the requested acronym information: ", speechText)
-      .getResponse();   
+      .getResponse();
   },
 };
 
 const RepeatIntentHandler = {
   canHandle(handlerInput) {
-      return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-          && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.RepeatIntent';
+    return (
+      Alexa.getRequestType(handlerInput.requestEnvelope) === "IntentRequest" &&
+      Alexa.getIntentName(handlerInput.requestEnvelope) ===
+        "AMAZON.RepeatIntent"
+    );
   },
   handle(handlerInput) {
-    let speechText = '';
+    let speechText = "";
+
+    //using the session attribute previously created
     const attributes = handlerInput.attributesManager.getSessionAttributes();
-    if (attributes.lastResult){
+    if (attributes.lastResult) {
       speechText = "I said: " + attributes.lastResult;
-    };
+    }
     handlerInput.attributesManager.setSessionAttributes(attributes);
-    
-    const repromptText = "Ask for another acronym or say 'repeat'; to hear the definition of the previous acronym again!";
+
+    const repromptText =
+      "Ask for another acronym or say 'repeat'; to hear the definition of the previous acronym again!";
 
     return handlerInput.responseBuilder
-    .speak(speechText)
-    .reprompt(repromptText)
-    .withSimpleCard("Here's the requested acronym information again: ", speechText)
-    .getResponse();
-  }
-}
+      .speak(speechText)
+      .reprompt(repromptText)
+      .withSimpleCard(
+        "Here's the requested acronym information again: ",
+        speechText
+      )
+      .getResponse();
+  },
+};
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {
