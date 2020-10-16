@@ -70,7 +70,7 @@ const AcronymIntentHandler = {
     handlerInput.attributesManager.setSessionAttributes(attributes);
 
     const repromptText =
-      "Ask for another acronym or say; 'repeat'; to hear the definition of the previous acronym again!";
+      "Ask for another acronym or say 'repeat'; to hear the definition of the previous acronym again!";
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -146,7 +146,7 @@ const CancelAndStopIntentHandler = {
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard("Goodbye", speechText)
+      .withStandardCard("Goodbye", speechText, 'https://i.imgur.com/eNSZS8D.png')
       .withShouldEndSession(true)
       .getResponse();
   },
