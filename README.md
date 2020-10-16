@@ -22,7 +22,7 @@ This skill is supported by the B.R.A.D. (BBC R&D Acronym Database) database, whi
 <ul>
   <li> The basics of AWS and Alexa skill development.</li>
   <li> Using Python to retrieve csv data from Amazon S3 and populate a DynamoDB table.</li>
-  <li> Using async/await calls for database access. </li>
   <li> Interfacing nodeJS on AWS lambda with a dynamoDB backend.</li>
+  <li> Using async/await calls for database access. </li>
   <li> Using git. </li>
 </ul>
